@@ -1,0 +1,102 @@
+# Inserting csv dataset files into dataframes
+embWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_emb.csv")
+YAWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_YA.csv")
+embRBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_emb.csv")
+YARBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_YA.csv")
+
+#verify data organisation
+head(embWDR5);names(embWDR5);sapply(embWDR5,class);nrow(embWDR5)
+head(embRBBP5);names(embRBBP5);sapply(embRBBP5,class);nrow(embRBBP5)
+head(YAWDR5);names(YAWDR5);sapply(YAWDR5,class);nrow(YAWDR5)
+head(YARBBP5);names(YARBBP5);sapply(YARBBP5,class);nrow(YARBBP5)
+
+#generating new and working dataset
+embWDR5_NEW<-embWDR5
+embWDR5_NEW$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 10)
+embWDR5_NEW<-embWDR5_NEW[-c(1)]
+embWDR5_NEW<-embWDR5_NEW[,c(23,1:22)]
+names(embWDR5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N", "wdr5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+
+# saving table as a csv file
+write.csv(embWDR5_NEW, "wdr5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+# Steps repeated for embRBBP5, YAWDR5 and YARBBP5
+
+embRBBP5_NEW<-embRBBP5
+embRBBP5_NEW$WBGene<-substring(embRBBP5$Wormbase.WBGene_UID, 10)
+embRBBP5_NEW<-embRBBP5_NEW[-c(1)]
+embRBBP5_NEW<-embRBBP5_NEW[,c(23,1:22)]
+names(embRBBP5_NEW)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repl2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N", "rbbp5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+
+# saving table as a csv file
+write.csv(embRBBP5_NEW, "rbbp5_vs_N2_emb_NEW.csv",row.names = FALSE)
+
+# YA dataset has missing values
+
+# sum(is.na(YAWDR5)) = 4107
+# sum(is.na(YARBBP5)) = 1877
+
+YAWDR5_NEW<-YAWDR5
+YAWDR5_NEW$WBGene<-YAWDR5$ID
+YAWDR5_NEW<-YAWDR5_NEW[-c(1)]
+YAWDR5_NEW<-YAWDR5_NEW[,c(28,1:27)]
+names(YAWDR5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N","wdr5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+
+# saving table as a csv file
+write.csv(YAWDR5_NEW, "wdr5_vs_N2_YA_NEW.csv",row.names = FALSE)
+
+YARBBP5_NEW<-YARBBP5
+YARBBP5_NEW$WBGene<-YARBBP5$Gene.ID
+YARBBP5_NEW<-YARBBP5_NEW[-c(1)]
+YARBBP5_NEW<-YARBBP5_NEW[,c(28,1:27)]
+names(YARBBP5_NEW)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repll2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N","rbbp5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+
+# saving table as a csv file
+write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
+
+
+
+#N2 > 50 dataset
+embWDR5_NEW1<-embWDR5
+embWDR5_NEW1$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 10)
+embWDR5_NEW1<-embWDR5_NEW1[-c(1)]
+embWDR5_NEW1<-embWDR5_NEW1[,c(23,1:22)]
+names(embWDR5_NEW1)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N", "wdr5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+embWDR5_NEW1 <- embWDR5_NEW1 %>% filter(n2.repl1 >50 & n2.repl2 >50 & n2.repl3 >50)
+# saving table as a csv file
+write.csv(embWDR5_NEW1, "wdr5_vs_N2_emb_NEW1.csv",row.names = FALSE)
+
+# Steps repeated for embRBBP5, YAWDR5 and YARBBP5
+
+embRBBP5_NEW1<-embRBBP5
+embRBBP5_NEW1$WBGene<-substring(embRBBP5$Wormbase.WBGene_UID, 10)
+embRBBP5_NEW1<-embRBBP5_NEW1[-c(1)]
+embRBBP5_NEW1<-embRBBP5_NEW1[,c(23,1:22)]
+names(embRBBP5_NEW1)[c(2:19)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repl2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N", "rbbp5.mean_N","fold.change","fold.change_log2","pvalue","pvalue.ad")
+embRBBP5_NEW1 <- embRBBP5_NEW1 %>% filter(n2.repl1 >50 & n2.repl2 >50 & n2.repl3 >50)
+# saving table as a csv file
+write.csv(embRBBP5_NEW1, "rbbp5_vs_N2_emb_NEW1.csv",row.names = FALSE)
+
+# YA dataset has missing values
+
+# sum(is.na(YAWDR5)) = 4107
+# sum(is.na(YARBBP5)) = 1877
+
+YAWDR5_NEW1<-YAWDR5
+YAWDR5_NEW1$WBGene<-YAWDR5$ID
+YAWDR5_NEW1<-YAWDR5_NEW1[-c(1)]
+YAWDR5_NEW1<-YAWDR5_NEW1[,c(28,1:27)]
+names(YAWDR5_NEW1)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","wdr5.repl1","wdr5.repl2","wdr5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","wdr5.repl1norm","wdr5.repl2norm","wdr5.repl3norm","n2.mean_N","wdr5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+YAWDR5_NEW1 <- YAWDR5_NEW1 %>% filter(n2.repl1 >50 & n2.repl2 >50 & n2.repl3 >50)
+# saving table as a csv file
+write.csv(YAWDR5_NEW1, "wdr5_vs_N2_YA_NEW1.csv",row.names = FALSE)
+
+YARBBP5_NEW1<-YARBBP5
+YARBBP5_NEW1$WBGene<-YARBBP5$Gene.ID
+YARBBP5_NEW1<-YARBBP5_NEW1[-c(1)]
+YARBBP5_NEW1<-YARBBP5_NEW1[,c(28,1:27)]
+names(YARBBP5_NEW1)[c(2:17,20:21)]<-c("n2.repl1","n2.repl2","n2.repl3","rbbp5.repl1","rbbp5.repll2","rbbp5.repl3","n2.repl1norm","n2.repl2norm","n2.repl3norm","rbbp5.repl1norm","rbbp5.repl2norm","rbbp5.repl3norm","n2.mean_N","rbbp5.mean_N","base.mean","fold.change_log2","pvalue","pvalue.ad")
+YARBBP5_NEW1 <- YARBBP5_NEW1 %>% filter(n2.repl1 >50 & n2.repl2 >50 & n2.repl3 >50)
+# saving table as a csv file
+write.csv(YARBBP5_NEW1, "rbbp5_vs_N2_YA_NEW1.csv",row.names = FALSE)
+
