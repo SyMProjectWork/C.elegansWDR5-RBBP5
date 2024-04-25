@@ -1,0 +1,102 @@
+library(patchwork)
+library(dplyr)
+library(ggplot2)
+
+
+
+
+WDR5wormcat<-read.csv("C:/Users/User/Desktop/RProject C. elegans/WormcatWDR5significant.csv")
+WDR5wormcat <- as.data.frame(WDR5wormcat)
+
+RBBP5wormcat<-read.csv("C:/Users/User/Desktop/RProject C. elegans/WormcatRBBP5significant.csv")
+RBBP5wormcat<-as.data.frame(RBBP5wormcat)
+
+
+
+
+embWDR5upwith50cat<- WDR5wormcat[,c("embWDR5upwith50", "PValue.1")]
+embWDR5upwith50catgraph <- ggplot(embWDR5upwith50cat) + geom_col(aes(x = reorder(embWDR5upwith50,(-log(PValue.1))),y= -log(PValue.1)), fill = "#176BA0", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in embWDR5") + theme(plot.margin = unit(c(80,100,30,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                             
+embWDR5upwith50catgraph
+
+embWDR5upno50cat<- WDR5wormcat[,c("embWDR5upno50", "PValue")]
+embWDR5upno50catgraph <- ggplot(embWDR5upno50cat) + geom_col(aes(x = reorder(embWDR5upno50,(-log(PValue))),y= -log(PValue)), fill = "#19AADE", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in embWDR5") + theme(plot.margin = unit(c(80,100,30,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                          
+embWDR5upno50catgraph
+
+
+
+embWDR5downwith50cat<- WDR5wormcat[,c("embWDR5downwith50", "PValue.3")]
+embWDR5downwith50catgraph <- ggplot(embWDR5downwith50cat) + geom_col(aes(x = reorder(embWDR5downwith50,(-log(PValue.3))),y= -log(PValue.3)), fill = "#DE542C", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in embWDR5") + theme(plot.margin = unit(c(80,100,100,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                           
+embWDR5downwith50catgraph
+
+
+embWDR5downno50cat<- WDR5wormcat[,c("embWDR5downno50", "PValue.2")]
+embWDR5downno50catgraph <- ggplot(embWDR5downno50cat) + geom_col(aes(x = reorder(embWDR5downno50,(-log(PValue.2))),y= -log(PValue.2)), fill = "#EF7E32", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in embWDR5")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                          
+embWDR5downno50catgraph
+
+
+YAWDR5upwith50cat<- WDR5wormcat[,c("YAWDR5upwith50", "PValue.5")]
+YAWDR5upwith50cat <- slice(YAWDR5upwith50cat,1:10)
+YAWDR5upwith50catgraph <- ggplot(YAWDR5upwith50cat) + geom_col(aes(x = reorder(YAWDR5upwith50,(-log(PValue.5))),y= -log(PValue.5)), fill = "#176BA0", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in YAWDR5") + theme(plot.margin = unit(c(80,100,100,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                      
+YAWDR5upwith50catgraph
+
+YAWDR5upno50cat<- WDR5wormcat[,c("YAWDR5upno50", "PValue.4")]
+YAWDR5upno50cat <- slice(YAWDR5upno50cat,1:10)
+YAWDR5upno50catgraph <- ggplot(YAWDR5upno50cat) + geom_col(aes(x = reorder(YAWDR5upno50,(-log(PValue.4))),y= -log(PValue.4)), fill = "#19AADE", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in YAWDR5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                          
+YAWDR5upno50catgraph
+
+
+
+YAWDR5downwith50cat<- WDR5wormcat[,c("YAWDR5downwith50", "PValue.7")]
+YAWDR5downwith50cat <- slice(YAWDR5downwith50cat,1:10)
+YAWDR5downwith50catgraph <- ggplot(YAWDR5downwith50cat) + geom_col(aes(x = reorder(YAWDR5downwith50,(-log(PValue.7))),y= -log(PValue.7)), fill = "#DE542C", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in YAWDR5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                           
+YAWDR5downwith50catgraph
+
+YAWDR5downno50cat<- WDR5wormcat[,c("YAWDR5downno50", "PValue.6")]
+YAWDR5downno50cat <- slice(YAWDR5downno50cat,1:10)
+YAWDR5downno50catgraph <- ggplot(YAWDR5downno50cat) + geom_col(aes(x = reorder(YAWDR5downno50,(-log(PValue.6))),y= -log(PValue.6)), fill = "#EF7E32", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in YAWDR5")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                           
+YAWDR5downno50catgraph
+
+
+embRBBP5upwith50cat<- RBBP5wormcat[,c("embRBBP5upwith50", "PValue.1")]
+embRBBP5upwith50cat <- slice(embRBBP5upwith50cat,1:10)
+embRBBP5upwith50catgraph <- ggplot(embRBBP5upwith50cat) + geom_col(aes(x = reorder(embRBBP5upwith50,(-log(PValue.1))),y= -log(PValue.1)), fill = "#176BA0", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in embRBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                      
+embRBBP5upwith50catgraph
+
+embRBBP5upno50cat<- RBBP5wormcat[,c("embRBBP5upno50", "PValue")]
+embRBBP5upno50cat <- slice(embRBBP5upno50cat,1:10)
+embRBBP5upno50catgraph <- ggplot(embRBBP5upno50cat) + geom_col(aes(x = reorder(embRBBP5upno50,(-log(PValue))),y= -log(PValue)), fill = "#19AADE", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in embRBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                          
+embRBBP5upno50catgraph
+
+
+embRBBP5downwith50cat<- RBBP5wormcat[,c("embRBBP5downwith50.1", "PValue.3")]
+embRBBP5downwith50cat <- slice(embRBBP5downwith50cat,1:10)
+embRBBP5downwith50catgraph <- ggplot(embRBBP5downwith50cat) + geom_col(aes(x = reorder(embRBBP5downwith50.1,(-log(PValue.3))),y= -log(PValue.3)), fill = "#DE542C", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in embRBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                            
+embRBBP5downwith50catgraph
+
+embRBBP5downno50cat<- RBBP5wormcat[,c("embRBBP5downwith50", "PValue.2")]
+embRBBP5downno50cat <- slice(embRBBP5downno50cat,1:10)
+embRBBP5downno50catgraph <- ggplot(embRBBP5downno50cat) + geom_col(aes(x = reorder(embRBBP5downwith50,(-log(PValue.2))),y= -log(PValue.2)), fill = "#EF7E32", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in embRBBP5")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                           
+embRBBP5downno50catgraph
+
+
+YARBBP5upwith50cat<- RBBP5wormcat[,c("YARBBP5upwith50", "PValue.5")]
+YARBBP5upwith50cat <- slice(YARBBP5upwith50cat,1:10)
+YARBBP5upwith50catgraph <- ggplot(YARBBP5upwith50cat) + geom_col(aes(x = reorder(YARBBP5upwith50,(-log(PValue.5))),y= -log(PValue.5)), fill = "#176BA0", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in YARBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                      
+YARBBP5upwith50catgraph
+
+YARBBP5upno50cat<- RBBP5wormcat[,c("YARBBP5upno50", "PValue.4")]
+YARBBP5upno50cat <- slice(YARBBP5upno50cat,1:10)
+YARBBP5upno50catgraph <- ggplot(YARBBP5upno50cat) + geom_col(aes(x = reorder(YARBBP5upno50,(-log(PValue.4))),y= -log(PValue.4)), fill = "#19AADE", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "URG Categories enriched in YARBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                          
+YARBBP5upno50catgraph
+
+
+
+YARBBP5downwith50cat<- RBBP5wormcat[,c("YARBBP5downwith50", "PValue.7")]
+YARBBP5downwith50cat <- slice(YARBBP5downwith50cat,1:10)
+YARBBP5downwith50catgraph <- ggplot(YARBBP5downwith50cat) + geom_col(aes(x = reorder(YARBBP5downwith50,(-log(PValue.7))),y= -log(PValue.7)), fill = "#DE542C", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in YARBBP5") + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                            
+YARBBP5downwith50catgraph
+
+YARBBP5downno50cat<- RBBP5wormcat[,c("YARBBP5downno50", "PValue.6")]
+YARBBP5downno50cat <- slice(YARBBP5downno50cat,1:10)
+YARBBP5downno50catgraph <- ggplot(YARBBP5downno50cat) + geom_col(aes(x = reorder(YARBBP5downno50,(-log(PValue.6))),y= -log(PValue.6)), fill = "#EF7E32", width = 0.6) +coord_flip() + labs(y= "-log10 P Value", x= "DRG Categories enriched in YARBBP5")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))                                                                                           
+YARBBP5downno50catgraph
