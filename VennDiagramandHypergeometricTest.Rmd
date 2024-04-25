@@ -1,0 +1,133 @@
+#Hypergeometric test and Venn Diagram
+#Venn Diagram was made with BioVenn but this is an alternative method that does not scale the Venn diagram area to the number of components within it.
+
+
+
+#Data without 50
+library(dplyr)
+changea <-1;changeb<-0.05; HembWDR5up <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembWDR5up)<-embWDR5_NEW1$WBGene
+HembWDR5up1 <- filter(HembWDR5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HembWDR5down <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembWDR5down)<-embWDR5_NEW1$WBGene
+HembWDR5down1 <- filter(HembWDR5down,gene_type=="down")
+
+changea <-1;changeb<-0.05; HembRBBP5up <- embRBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembRBBP5up)<-embRBBP5_NEW1$WBGene
+HembRBBP5up1 <- filter(HembRBBP5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HembRBBP5down <- embRBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembRBBP5down)<-embRBBP5_NEW1$WBGene
+HembRBBP5down1 <- filter(HembRBBP5down,gene_type=="down")
+
+changea <-1;changeb<-0.05; HYAWDR5up <- YAWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYAWDR5up)<-YAWDR5_NEW1$WBGene
+HYAWDR5up1 <- filter(HYAWDR5up,gene_type=="up") 
+
+changea <-1;changeb<-0.05; HYAWDR5down <- YAWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYAWDR5down)<-YAWDR5_NEW1$WBGene
+HYAWDR5down1 <- filter(HYAWDR5down,gene_type=="down") 
+
+changea <-1;changeb<-0.05; HYARBBP5up <- YARBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYARBBP5up)<-YARBBP5_NEW1$WBGene
+HYARBBP5up1 <- filter(HYARBBP5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HYARBBP5down <- YARBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYARBBP5down)<-YARBBP5_NEW1$WBGene
+HYARBBP5down1<- filter(HYARBBP5down,gene_type=="down" )
+
+#----------------------------------------------------------------------------
+
+#Data with 50
+library(dplyr)
+changea <-2;changeb<-0.05; HembWDR5up <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembWDR5up)<-embWDR5_NEW$WBGene
+HembWDR5up2 <- filter(HembWDR5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HembWDR5down <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembWDR5down)<-embWDR5_NEW$WBGene
+HembWDR5down2 <- filter(HembWDR5down,gene_type=="down")
+
+changea <-2;changeb<-0.05; HembRBBP5up <- embRBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembRBBP5up)<-embRBBP5_NEW$WBGene
+HembRBBP5up2 <- filter(HembRBBP5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HembRBBP5down <- embRBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HembRBBP5down)<-embRBBP5_NEW$WBGene
+HembRBBP5down2 <- filter(HembRBBP5down,gene_type=="down")
+
+changea <-2;changeb<-0.05; HYAWDR5up <- YAWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYAWDR5up)<-YAWDR5_NEW$WBGene
+HYAWDR5up2 <- filter(HYAWDR5up,gene_type=="up") 
+
+changea <-1;changeb<-0.05; HYAWDR5down <- YAWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYAWDR5down)<-YAWDR5_NEW$WBGene
+HYAWDR5down2 <- filter(HYAWDR5down,gene_type=="down") 
+
+changea <-2;changeb<-0.05; HYARBBP5up <- YARBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYARBBP5up)<-YARBBP5_NEW$WBGene
+HYARBBP5up2 <- filter(HYARBBP5up,gene_type=="up")
+
+changea <-1;changeb<-0.05; HYARBBP5down <- YARBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+row.names(HYARBBP5down)<-YARBBP5_NEW$WBGene
+HYARBBP5down2<- filter(HYARBBP5down,gene_type=="down" )
+
+#make Venn Diagram
+library(ggvenn)
+ Vennlistup = list(HembWDR5up = sample(HembWDR5up1$WBGene),                                      HYAWDR5up = sample(HYAWDR5up1$WBGene),                                     HembRBBP5up = sample(HembRBBP5up1$WBGene),                                   HYARBBP5up = sample(HYARBBP5up1$WBGene))
+ggvenn(Vennlistup,stroke_size=0.5,set_name_size=2.3)
+
+ Vennlistdown = list(HembWDR5down = sample(HembWDR5down$WBGene),                                      HYAWDR5down = sample(HYAWDR5down$WBGene),                                     HembRBBP5down = sample(HembRBBP5down$WBGene),                                   HYARBBP5down = sample(HYARBBP5down$WBGene))
+ggvenn(Vennlistdown,stroke_size=0.5,set_name_size=2.3)
+
+
+#NEW_Without50
+Vennlist = list(embWDR5up = sample(HembWDR5up1$WBGene),                                      embRBBP5up = sample(HembRBBP5up1$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+> phyper(496,2126,12535-2126,591,lower.tail = FALSE)
+[1] 1.267385e-301
+
+Vennlist = list(embWDR5down = sample(HembWDR5down1$WBGene),                                      embRBBP5down= sample(HembRBBP5down1$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+>  phyper(38,67,12535-67,1157,lower.tail = FALSE)
+[1] 1.110814e-23
+
+Vennlist = list(YAWDR5up = sample(HYAWDR5up1$WBGene),                                      YARBBP5up = sample(HYARBBP5up1$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+> phyper(97,589,9409-589,117,lower.tail = FALSE)
+[1] 4.62327e-101
+
+Vennlist = list(YAWDR5down = sample(HYAWDR5down1$WBGene),                                      YARBBP5down = sample(HYARBBP5down1$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+>  phyper(82,635,9409-635,235,lower.tail = FALSE)
+[1] 3.570223e-39
+
+#With50
+
+Vennlist = list(embWDR5up = sample(HembWDR5up2$WBGene),                                      embRBBP5up = sample(HembRBBP5up2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+> phyper(353,1502,16927-1502,494,lower.tail = FALSE)
+[1] 4.845901e-269 - using total of embWDR5
+
+Vennlist = list(embWDR5down = sample(HembWDR5down2$WBGene),                                 embRBBP5down=sample(HembRBBP5down2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+> phyper(38,1208,16927-1208,67,lower.tail = FALSE)
+[1] 8.997622e-28 - using total of embWDR5
+
+Vennlist = list(YAWDR5up = sample(HYAWDR5up2$WBGene),                                      YARBBP5up = sample(HYARBBP5up2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+>  phyper(254,1279,19093-1279,385,lower.tail = FALSE)
+[1] 9.158054e-209
+
+Vennlist = list(YAWDR5down = sample(HYAWDR5down2$WBGene),                                      YARBBP5down = sample(HYARBBP5down2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+> phyper(90,672,19093-672,256,lower.tail = FALSE)
+[1] 8.108345e-67
+
+Vennlist = list(embWDR5up = sample(HembWDR5up2$WBGene),                                      embRBBP5up = sample(HembRBBP5up2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
+
+
+Vennlist = list(embWDR5down = sample(HembWDR5down2$WBGene),                                      embRBBP5down= sample(HembRBBP5down2$WBGene))
+ggvenn(Vennlist,stroke_size=0.5,set_name_size=4)
