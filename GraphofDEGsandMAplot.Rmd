@@ -1,0 +1,631 @@
+```{Graph}
+#N2 < 50
+
+# Create bar graphs showing different fold change log values
+# Function to count occurrences of up character in a column
+#load forcats and dplyr
+count_specific_char <- function(column, char) {
+  total_count <- sum(sapply(column, function(x) sum(grepl(char, x))))
+  return(total_count)
+}
+
+# Count the occurrences of the specific character in the column
+total_occurrencesup <- count_specific_char(embWDR5graph$gene_type, "up")
+
+#-------------------------------------------------------------------
+
+#Now for down
+count_specific_char <- function(column, char) {
+  total_count <- sum(sapply(column, function(x) sum(grepl(char, x))))
+  return(total_count)
+}
+
+
+# Count the occurrences of the specific character in the column
+total_occurrencesdown <- count_specific_char(embWDR5graph$gene_type, "down")
+
+#Unfortunately, passing variables as arguments does not work well when it is conducted when passing it for the 2nd time.
+
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+# sadly, this line of code needs to be repeated multiple times as it does not update its values when the prior code was already executed. This may due to the code being in different 'environments'.
+
+# Make new dataframe for making new columns containing up and down regulated genes with modified thresholds
+# fold.change.log2>=1/-1 and pvalue=0.05
+changea <-1;changeb<-0.05; embWDR5graph <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+1 down       1239
+2 ns         8921
+3 up         2349
+[1] 3588
+
+# fold.change.log2>=1.5/-1.5 and pvalue=0.05
+changea <-1.5;changeb<-0.05; embWDR5graph <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+1 down        323
+2 ns        10773
+3 up         1413
+[1] 1736
+# fold.change.log2>=2/-2 and pvalue=0.05
+changea <-2;changeb<-0.05; embWDR5graph <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+1 down        101
+2 ns        11749
+3 up          659
+[1] 760
+
+# fold.change.log2>=2.5/-2.5 and pvalue=0.05
+changea <-2.5;changeb<-0.05; embWDR5graph <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+1 down         48
+2 ns        12270
+3 up          191
+[1] 239
+
+# fold.change.log2>=3/-3 and pvalue=0.05
+changea <-3;changeb<-0.05; embWDR5graph <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue <= changeb ~ "up", fold.change_log2 <= -changea & pvalue <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+1 down         34
+2 ns        12446
+3 up           29
+[1] 63
+
+#------------------------------------------------------------------
+#embWDR5 Log2_1_pval_0.01
+1 down       1102
+2 ns         9388
+3 up         2019   (3121)
+
+#embWDR5 Log2_1.5_pval_0.01
+1 down        298
+2 ns        10989
+3 up         1222   (1520)
+
+#embWDR5 Log2_2_pval_0.01
+1 down         96
+2 ns        11857
+3 up          556   (652)
+
+#embWDR5 Log2_2.5_pval_0.01
+1 down         45
+2 ns        12304
+3 up          160   (205)
+
+#embWDR5 Log2_3_pval_0.01
+1 down         32
+2 ns        12450
+3 up           27   (59)
+
+#----------------------------------------------------------------
+#embRBBP5 Log2_1_pval_0.05
+1 down        165
+2 ns        11235
+3 up         1109   (1274)
+
+#embRBBP5 Log2_1.5_pval_0.05
+1 down         68
+2 ns        11988
+3 up          453   (521)
+
+#embRBBP5 Log2_2_pval_0.05
+1 down         26
+2 ns        12347
+3 up          136   (162)
+
+#embRBBP5 Log2_2.5_pval_0.05
+1 down         17
+2 ns        12461
+3 up           31   (48)
+
+#embRBBP5 Log2_3_pval_0.05
+1 down          8
+2 ns        12494
+3 up            7   (15)
+
+#-------------------------------------------------------------------
+#embRBBP5 Log2_1_pval_0.01
+1 down        106
+2 ns        11599
+3 up          804   (910)
+
+#embRBBP5 Log2_1.5_pval_0.01
+1 down         53
+2 ns        12089
+3 up          367   (420)
+
+#embRBBP5 Log2_2_pval_0.01
+1 down         23
+2 ns        12364
+3 up          122   (145)
+
+#embRBBP5 Log2_2.5_pval_0.01
+1 down         15
+2 ns        12463
+3 up           31   (45)
+
+#embRBBP5 Log2_3_pval_0.01
+1 down          8
+2 ns        12494
+3 up            7   (15)
+
+#--------------------------------------------------------------
+#YAWDR5 Log2_1_pval_0.05
+1 down        304
+2 ns         8843
+3 up          233   (537)
+
+#YAWDR5 Log2_1.5_pval_0.05
+1 down        123
+2 ns         9175
+3 up           82   (205)
+
+#YAWDR5 Log2_2_pval_0.05
+1 down         48
+2 ns         9307
+3 up           25   (73)
+
+#YAWDR5 Log2_2.5_pval_0.05
+1 down         29
+2 ns         9341
+3 up           10   (39)
+
+#YAWDR5 Log2_3_pval_0.05
+1 down         14
+2 ns         9364
+3 up            2   (16)
+
+#--------------------------------------------------------------
+#YAWDR5 Log2_1_pval_0.01
+1 down        269
+2 ns         8909
+3 up          202   (471)
+
+#YAWDR5 Log2_1.5_pval_0.01
+1 down        121
+2 ns         9182
+3 up           77   (198)
+
+#YAWDR5 Log2_2_pval_0.01
+1 down         48
+2 ns         9309
+3 up           23   (71)
+
+#YAWDR5 Log2_2.5_pval_0.01
+1 down         29
+2 ns         9341
+3 up           10   (39)
+
+#YAWDR5 Log2_3_pval_0.01
+1 down         14
+2 ns         9364
+3 up            2   (16)
+
+#-----------------------------------------------------------------
+#YARBBP5 Log2_1_pval_0.05
+1 down        728
+2 ns         7964
+3 up          688   (1416)
+
+#YARBBP5 Log2_1.5_pval_0.05
+1 down        110
+2 ns         8984
+3 up          286   (396)
+
+#YARBBP5 Log2_2_pval_0.05
+1 down         39
+2 ns         9250
+3 up           91   (130)
+
+#YARBBP5 Log2_2.5_pval_0.05
+1 down         24
+2 ns         9316
+3 up           40  (64)
+
+#YARBBP5 Log2_3_pval_0.05
+1 down         15
+2 ns         9353
+3 up           12  (27)
+#-----------------------------------------------------------------
+#YARBBP5 Log2_1_pval_0.01
+1 down        655
+2 ns         8133
+3 up          592   (1247)
+
+#YARBBP5 Log2_1.5_pval_0.01
+1 down        110
+2 ns         9001
+3 up          269   (379)
+
+#YARBBP5 Log2_2_pval_0.01
+1 down         39
+2 ns         9252
+3 up           89   (128)
+
+#YARBBP5 Log2_2.5_pval_0.01
+1 down         24
+2 ns         9316
+3 up           40   (64)
+
+#YARBBP5 Log2_3_pval_0.01
+1 down         15
+2 ns         9353
+3 up           12   (27)
+
+#All included
+
+changea <-1;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
+embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
+total_occurrences<- (count_specific_char(embWDR5graph$gene_type, "down") + count_specific_char(embWDR5graph$gene_type, "up"))
+total_occurrences
+```
+#embWDR5 Log2_1_pval.ad_0.05
+1 down       1208
+2 ns        12532
+3 up         3187   (4395)
+#embWDR5 Log2_1.5_pval.ad_0.05
+1 down        357
+2 ns        14237
+3 up         2333   (2690)
+#embWDR5 Log2_2_pval.ad_0.05
+1 down        141
+2 ns        15284
+3 up         1502   (1643)
+#embWDR5 Log2_2.5_pval.ad_0.05
+1 down         88
+2 ns        15967
+3 up          872   (960)
+#embWDR5 Log2_3_pval.ad_0.05
+1 down         70
+2 ns        16377
+3 up          480   (550)
+#---------------------------------------------------------------------------
+#embWDR5 Log2_1_pval.ad_0.01
+1 down        877
+2 ns        13794
+3 up         2256   (3133)
+
+#embWDR5 Log2_1.5_pval.ad_0.01
+1 down        294
+2 ns        14982
+3 up         1651   (1945)
+
+#embWDR5 Log2_2_pval.ad_0.01
+1 down        112
+2 ns        15791
+3 up         1024   (1136)
+
+#embWDR5 Log2_2.5_pval.ad_0.01
+1 down         64
+2 ns        16281
+3 up          582   (646)
+
+#embWDR5 Log2_3_pval.ad_0.01
+1 down         49
+2 ns        16556
+3 up          322   (371)
+#----------------------------------------------------------------
+#embRBBP5 Log2_1_pval.ad_0.05
+1 down         67
+2 ns        15915
+3 up         1027   (1094)
+
+#embRBBP5 Log2_1.5_pval.ad_0.05
+1 down         40
+2 ns        16228
+3 up          741   (781)
+
+#embRBBP5 Log2_2_pval.ad_0.05
+1 down         20
+2 ns        16495
+3 up          494   (514)
+
+#embRBBP5 Log2_2.5_pval.ad_0.05
+1 down         14
+2 ns        16686
+3 up          309   (323)
+
+#embRBBP5 Log2_3_pval.ad_0.05
+1 down          8
+2 ns        16802
+3 up          199   (207)
+#-------------------------------------------------------------------
+#embRBBP5 Log2_1_pval.ad_0.01
+1 down         32
+2 ns        16427
+3 up          550   (582)
+
+#embRBBP5 Log2_1.5_pval.ad_0.01
+1 down         28
+2 ns        16557
+3 up          424   (452)
+
+#embRBBP5 Log2_2_pval.ad_0.01
+1 down         14
+2 ns        16695
+3 up          300
+
+#embRBBP5 Log2_2.5_pval.ad_0.01
+1 down         12
+2 ns        16803
+3 up          194   (206)
+
+#embRBBP5 Log2_3_pval.ad_0.01
+1 down          6
+2 ns        16874
+3 up          129   (135)
+
+#--------------------------------------------------------------
+#YAWDR5 Log2_1_pval.ad_0.05
+1 down        256
+2 ns        18181
+3 up          656   (912)
+#YAWDR5 Log2_1.5_pval.ad_0.05
+1 down        134
+2 ns        18423
+3 up          536   (670)
+#YAWDR5 Log2_2_pval.ad_0.05
+1 down         65
+2 ns        18643
+3 up          385   (450)
+#YAWDR5 Log2_2.5_pval.ad_0.05
+1 down         41
+2 ns        18794
+3 up          258   (299)
+#YAWDR5 Log2_3_pval.ad_0.05
+1 down         22
+2 ns        18895
+3 up          176   (198)
+#--------------------------------------------------------------
+#YAWDR5 Log2_1_pval.ad_0.01
+1 down        220
+2 ns        18389
+3 up          484   (704)
+
+#YAWDR5 Log2_1.5_pval.ad_0.01
+1 down        122
+2 ns        18562
+3 up          409   (531)
+
+#YAWDR5 Log2_2_pval.ad_0.01
+1 down         58
+2 ns        18738
+3 up          297   (355)
+
+#YAWDR5 Log2_2.5_pval.ad_0.01
+1 down         37
+2 ns        18862
+3 up          194   (231)
+
+#YAWDR5 Log2_3_pval.ad_0.01
+1 down         19
+2 ns        18936
+3 up          138   (157)
+#-----------------------------------------------------------------
+#YARBBP5 Log2_1_pval.ad_0.05
+1 down        672
+2 ns        16222
+3 up         2199   (2871)
+
+#YARBBP5 Log2_1.5_pval.ad_0.05
+1 down        148
+2 ns        17167
+3 up         1778   (1926)
+
+#YARBBP5 Log2_2_pval.ad_0.05
+1 down         62
+2 ns        17752
+3 up         1279   (1341)
+
+#YARBBP5 Log2_2.5_pval.ad_0.05
+1 down         39
+2 ns        18146
+3 up          908   (947)
+
+#YARBBP5 Log2_3_pval.ad_0.05
+1 down         23
+2 ns        18444
+3 up          626   (649)
+#-----------------------------------------------------------------
+#YARBBP5 Log2_1_pval.ad_0.01
+1 down        473
+2 ns        17076
+3 up         1544   (2017)
+
+#YARBBP5 Log2_1.5_pval.ad_0.01
+1 down        125
+2 ns        17648
+3 up         1320   (1445)
+
+#YARBBP5 Log2_2_pval.ad_0.01
+1 down         51
+2 ns        18080
+3 up          962   (1013)
+
+#YARBBP5 Log2_2.5_pval.ad_0.01
+1 down         34
+2 ns        18365
+3 up          694   (728)
+
+#YARBBP5 Log2_3_pval.ad_0.01
+1 down         20
+2 ns        18599
+3 up          474   (494)
+
+#All included
+library(ggpubr)
+library(dplyr)
+library(reshape2)
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+upgenes_padj0.05<-c(3187,2333,1502,872,480)
+upgenes_padj0.01<-c(2256,1651,1024,582,322)
+downgenes_padj0.05<-c(1208,357,141,88,70)
+downgenes_padj0.01<-c(877,294,112,64,49)
+
+embWDR5graph<-data.frame(Thresholds,upgenes_padj0.05,upgenes_padj0.01,downgenes_padj0.05,downgenes_padj0.01)
+embWDR5graph <- melt(embWDR5graph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(embWDR5graph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(4000), length.out = 11)) + xlab("log2 fold change") + ylab("number of genes")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7)))  
+
+embWDR5ma<-embWDR5
+names(embWDR5ma)[c(1)]<-c("WBGene")
+embWDR5ma$baseMean <- (embWDR5ma$baseMean_N2)
+ggmaplot1(embWDR5ma, main = expression("Group 1" %->% "Group 2"),
+   fdr = 0.05, fdr2 = 0.05, fc = (2^1), fc2 = (2^1), size = 0.4,
+   palette = c("#1465AC","#B31B21", "darkgray"),
+   genenames = as.vector(embWDR5$WBGene),
+   legend = "top", top = 0,
+   font.label = NA,
+   font.legend = "bold",
+   font.main = "bold",
+   ggtheme = ggplot2::theme_minimal()) + theme(plot.margin = unit(c(30,100,80,140),"pt"),axis.title.y=element_text(size=rel(1.2)),axis.title.x=element_text(size=rel(1.2)))
+#-------------------------------------------------------------------
+#embRBBP5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+upgenes_padj0.05<-c(1027,741,494,309,199)
+upgenes_padj0.01<-c(550,424,300,294,129)
+downgenes_padj0.05<-c(67,40,20,14,8)
+downgenes_padj0.01<-c(32,28,14,12,6)
+
+embRBBP5graph<-data.frame(Thresholds,upgenes_padj0.05,upgenes_padj0.01,downgenes_padj0.05,downgenes_padj0.01)
+embRBBP5graph <- melt(embRBBP5graph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(embRBBP5graph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2000), length.out = 11)) + xlab("log2 fold change") + ylab("number of genes")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7))) 
+
+embRBBP5ma<-embRBBP5
+names(embRBBP5ma)[c(1)]<-c("WBGene")
+embRBBP5ma$baseMean <- (embRBBP5ma$baseMean_N2)
+ggmaplot1(embRBBP5ma, main = expression("Group 1" %->% "Group 2"),
+   fdr = 0.05,fdr2 = 0.05,fc = (2^1), fc2 = (2^1),size = 0.4,
+   palette = c("#1465AC","#B31B21", "darkgray"),
+   genenames = as.vector(embRBBP5$WBGene),
+   legend = "top", top = 0,
+   font.label = NA,
+   font.legend = "bold",
+   font.main = "bold",
+   ggtheme = ggplot2::theme_minimal()) + theme(plot.margin = unit(c(30,100,80,140),"pt"),axis.title.y=element_text(size=rel(1.2)),axis.title.x=element_text(size=rel(1.2)))
+
+#---------------------------------------------------------------------------
+#YAWDR5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+upgenes_padj0.05<-c(656,536,385,258,176)
+upgenes_padj0.01<-c(484,409,297,194,138)
+downgenes_padj0.05<-c(256,134,65,41,22)
+downgenes_padj0.01<-c(220,122,58,37,19)
+
+YAWDR5graph<-data.frame(Thresholds,upgenes_padj0.05,upgenes_padj0.01,downgenes_padj0.05,downgenes_padj0.01)
+YAWDR5graph <- melt(YAWDR5graph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(YAWDR5graph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2000), length.out = 11))  + xlab("log2 fold change") + ylab("number of genes")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7))) 
+
+YAWDR5ma<-YAWDR5
+names(YAWDR5ma)[c(1)]<-c("WBGene")
+YAWDR5ma$baseMean <- (YAWDR5ma$meanA)
+ggmaplot1(YAWDR5ma, main = expression("Group 1" %->% "Group 2"),
+   fdr = 0.05,fdr2 = 0.05,fc = (2^1), fc2 =(2^1),size = 0.4,
+   palette = c("#1465AC","#B31B21", "darkgray"),
+   genenames = as.vector(YAWDR5$WBGene),
+   legend = "top", top = 0,
+   font.label = NA,
+   font.legend = "bold",
+   font.main = "bold",
+   ggtheme = ggplot2::theme_minimal())+ theme(plot.margin = unit(c(30,100,80,140),"pt"),axis.title.y=element_text(size=rel(1.2)),axis.title.x=element_text(size=rel(1.2)))
+#---------------------------------------------------------------------------
+
+#YARBBP5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+upgenes_padj0.05<-c(2199,1778,1279,908,626)
+upgenes_padj0.01<-c(1544,1320,962,694,474)
+downgenes_padj0.05<-c(672,148,62,39,23)
+downgenes_padj0.01<-c(473,125,51,34,20)
+
+YARBBP5graph<-data.frame(Thresholds,upgenes_padj0.05,upgenes_padj0.01,downgenes_padj0.05,downgenes_padj0.01)
+YARBBP5graph <- melt(YARBBP5graph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(YARBBP5graph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(4000), length.out = 11))  + xlab("log2 fold change") + ylab("number of genes")  + theme(plot.margin = unit(c(80,100,80,30),"pt"),axis.title.y=element_text(size=rel(0.7))) 
+
+YARBBP5ma<-YARBBP5
+names(YARBBP5ma)[c(1)]<-c("WBGene")
+YARBBP5ma$baseMean <- (YARBBP5ma$meanA)
+ggmaplot1(YARBBP5ma, main = expression("Group 1" %->% "Group 2"),
+   fdr = 0.05,fdr2 = 0.05,fc = (2^1), fc2 = (2^1),size = 0.4,
+   palette = c("#1465AC","#B31B21", "darkgray"),
+   genenames = as.vector(YARBBP5$WBGene),
+   legend = "top", top = 0,
+   font.label = NA,
+   font.legend = "bold",
+   font.main = "bold",
+   ggtheme = ggplot2::theme_minimal())+ theme(plot.margin = unit(c(30,100,80,140),"pt"),axis.title.y=element_text(size=rel(1.2)),axis.title.x=element_text(size=rel(1.2)))
+   
+ #removal of 50
+```{works}
+#embWDR5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+genes_up1<-c(2126,1284,589,173,29)
+genes_up2<-c(1633,1028,446,126,24)
+genes_down1<-c(1157,307,98,47,34)
+genes_down2<-c(855,272,90,42,30)
+
+testgraph<-data.frame(Thresholds,genes_up1,genes_up2,genes_down1,genes_down2)
+testgraph <- melt(testgraph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(testgraph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2400), length.out = 13))
+```
+
+```{works}
+#embRBBP5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+genes_up1<-c(591,307,106,30,7)
+genes_up2<-c(320,194,74,24,6)
+genes_down1<-c(67,40,20,14,8)
+genes_down2<-c(32,28,14,12,6)
+
+testgraph<-data.frame(Thresholds,genes_up1,genes_up2,genes_down1,genes_down2)
+testgraph <- melt(testgraph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(testgraph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2400), length.out = 13))
+```
+
+```{works}
+#YAWDR5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+genes_up1<-c(177,80,24,11,2)
+genes_up2<-c(146,78,23,11,2)
+genes_down1<-c(235,113,47,28,13)
+genes_down2<-c(207,109,47,28,13)
+
+testgraph<-data.frame(Thresholds,genes_up1,genes_up2,genes_down1,genes_down2)
+testgraph <- melt(testgraph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(testgraph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2400), length.out = 13))
+```
+
+```{works}
+#YARBBP5
+Thresholds<-c("1", "1.5", "2", "2.5", "3")
+genes_up1<-c(589,274,89,40,12)
+genes_up2<-c(459,260,84,38,12)
+genes_down1<-c(635,111,40,25,15)
+genes_down2<-c(457,109,39,25,15)
+
+testgraph<-data.frame(Thresholds,genes_up1,genes_up2,genes_down1,genes_down2)
+testgraph <- melt(testgraph, id.vars='Thresholds')
+#dodge helps to position them seperately and not stack
+ggplot(testgraph, aes(Thresholds, value)) +                      geom_bar(aes(fill = variable), position = "dodge", stat="identity")+
+scale_fill_manual(values=c("#176BA0", "#19AADE", "#DE542C","#EF7E32")) + scale_y_continuous(breaks = seq(0, max(2400), length.out = 13))
