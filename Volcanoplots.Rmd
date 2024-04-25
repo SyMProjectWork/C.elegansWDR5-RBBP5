@@ -1,0 +1,153 @@
+#VolcanoPlot
+packages1 <- c("pacman","tidyverse","scales","ggrepel")
+lapply(packages1,library,character.only=TRUE)
+
+
+
+
+
+YARBBP5_NEW_genetype <- YARBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+YARBBP5_NEW1 %>% pull(fold.change_log2) %>% min() %>% floor() 
+YARBBP5_NEW1 %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-6 and [1]7
+max(abs(-6), abs(7))
+#> [1] 7
+
+sig_genes <- YARBBP5_NEW_genetype %>% filter(pvalue.ad < 3.80e-50)
+
+
+vol_YARBBP5_NEW <- YARBBP5_NEW_genetype %>%             ggplot(aes(x = fold.change_log2, y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values=cols) +   scale_x_continuous(breaks = c(seq(-8, 8, 2)), limits = c(-8,8)) +          scale_alpha_manual(values = alphas) + scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.9, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+vol_YARBBP5_NEW
+
+
+
+
+YAWDR5_NEW_genetype <- YAWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+YAWDR5_NEW1 %>% pull(fold.change_log2) %>% min() %>% floor() 
+YAWDR5_NEW1 %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-10 and [1]4
+max(abs(-10), abs(4))
+#> [1] 10
+
+sig_genes <- YAWDR5_NEW_genetype %>% filter(pvalue.ad <6.98e-56)
+
+vol_YAWDR5_NEW <- YAWDR5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-10, 10, 2)), limits = c(-10,10)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.5, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_YAWDR5_NEW 
+
+
+
+
+embRBBP5_NEW_genetype <- embRBBP5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+embRBBP5_G.Ex <-subset(embRBBP5_NEW_genetype,select=c(WBGene, gene_type))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embRBBP5_NEW1 %>% pull(fold.change_log2) %>% min() %>% floor() 
+embRBBP5_NEW1 %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-6 and [1]5
+max(abs(-6), abs(5))
+#> [1] 6
+
+sig_genes <- embRBBP5_NEW_genetype %>% filter(pvalue.ad <1.89000e-11)
+
+
+vol_embRBBP5_NEW <- embRBBP5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-6, 6, 2)), limits = c(-6,6)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.5, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_embRBBP5_NEW 
+  
+  
+  embWDR5_NEW_genetype <- embWDR5_NEW1 %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embWDR5_NEW1 %>% pull(fold.change_log2) %>% min() %>% floor() 
+embWDR5_NEW1 %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-12 and [1]5
+max(abs(-12), abs(5))
+#> [1] 12
+
+sig_genes <- embWDR5_NEW_genetype %>% filter(pvalue.ad <2.31e-19)
+
+vol_embWDR5_NEW <- embWDR5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.5, size = 4,box.padding=unit(0.7,"lines"), max.overlaps= 10 )+ xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_embWDR5_NEW 
+
+
+
+#Repeat but will all
+#------------------------------------------------------------------------------------
+
+YARBBP5_NEW_genetype <- YARBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+
+# > [1]-9 and [1]13
+max(abs(-6), abs(7))
+#> [1] 13
+
+sig_genes <- YARBBP5_NEW_genetype %>% filter(pvalue.ad < 1.07e-68)
+
+
+vol_YARBBP5_NEW <- YARBBP5_NEW_genetype %>%             ggplot(aes(x = fold.change_log2, y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values=cols) +           scale_alpha_manual(values = alphas) + scale_x_continuous(breaks = c(seq(-14, 14, 2)), limits = c(-14,14)) + scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.9, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+vol_YARBBP5_NEW
+
+
+
+
+YAWDR5_NEW_genetype <- YAWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+YAWDR5_NEW %>% pull(fold.change_log2) %>% min() %>% floor() 
+YAWDR5_NEW %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-10 and [1]12
+max(abs(-10), abs(12))
+#> [1] 12
+
+sig_genes <- YAWDR5_NEW_genetype %>% filter(pvalue.ad <2.34e-73)
+
+vol_YAWDR5_NEW <- YAWDR5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.5, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_YAWDR5_NEW 
+
+
+
+
+embRBBP5_NEW_genetype <- embRBBP5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+embRBBP5_G.Ex <-subset(embRBBP5_NEW_genetype,select=c(WBGene, gene_type))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embRBBP5_NEW %>% pull(fold.change_log2) %>% min() %>% floor() 
+embRBBP5_NEW %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-8 and [1]11
+max(abs(-8), abs(11))
+#> [1] 11
+
+sig_genes <- embRBBP5_NEW_genetype %>% filter(pvalue.ad <3.18e-14)
+
+
+vol_embRBBP5_NEW <- embRBBP5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -1, hjust = 1, size = 4,box.padding=unit(0.5,"lines"), max.overlaps= 10 ) + xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_embRBBP5_NEW 
+  
+  
+  embWDR5_NEW_genetype <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= 1 & pvalue.ad <= 0.05 ~ "up", fold.change_log2 <= -1 & pvalue.ad <= 0.05 ~ "down", TRUE ~ "ns"))
+
+# identify max and min to make symmetrical plot
+# floor and ceiling function is to round off number to nearest lower or higher value
+embWDR5_NEW %>% pull(fold.change_log2) %>% min() %>% floor() 
+embWDR5_NEW %>% pull(fold.change_log2) %>% max() %>% ceiling()
+# > [1]-12 and [1]10
+max(abs(-12), abs(10))
+#> [1] 12
+
+sig_genes <- embWDR5_NEW_genetype %>% filter(pvalue.ad < 2.13e-20)
+
+vol_embWDR5_NEW <- embWDR5_NEW_genetype %>%             ggplot(aes(x = (fold.change_log2), y = -log10(pvalue.ad),         fill = gene_type,                                               size = 1,                                              alpha = gene_type)) +                                    geom_point(shape = 21, colour = "black", size=3.5) + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" )  + geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "black" ) + geom_vline(xintercept = c(log2(2^1), log2(2^-1)), linetype = "dashed") + scale_fill_manual(values = cols) +          scale_size_manual(values = sizes) +           scale_alpha_manual(values = alphas) +      scale_x_continuous(breaks = c(seq(-12, 12, 2)), limits = c(-12,12)) +     scale_color_manual(values = c("#EF7E32","gray50", "#19AADE"),aesthetics= c("colour","fill"))+ geom_text_repel(data = sig_genes, aes(label = WBGene), vjust = -0.5, hjust = 0.5, size = 4,box.padding=unit(0.7,"lines"), max.overlaps= 10 )+ xlab("log2 fold change") + ylab("log10(adjusted p value)")
+  vol_embWDR5_NEW 
+  
+  
