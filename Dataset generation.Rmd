@@ -4,13 +4,13 @@ YAWDR5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/wdr5_vs_N2_
 embRBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_emb.csv")
 YARBBP5<-read.csv("C:/Users/User/Desktop/RProject C. elegans/raw data/rbbp5_vs_N2_YA.csv")
 
-#verify data organisation
+# verify data organisation
 head(embWDR5);names(embWDR5);sapply(embWDR5,class);nrow(embWDR5)
 head(embRBBP5);names(embRBBP5);sapply(embRBBP5,class);nrow(embRBBP5)
 head(YAWDR5);names(YAWDR5);sapply(YAWDR5,class);nrow(YAWDR5)
 head(YARBBP5);names(YARBBP5);sapply(YARBBP5,class);nrow(YARBBP5)
 
-#generating new and working dataset
+# generating new and working dataset
 embWDR5_NEW<-embWDR5
 embWDR5_NEW$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 10)
 embWDR5_NEW<-embWDR5_NEW[-c(1)]
@@ -56,7 +56,7 @@ write.csv(YARBBP5_NEW, "rbbp5_vs_N2_YA_NEW.csv",row.names = FALSE)
 
 
 
-#N2 > 50 dataset
+# N2 > 50 dataset
 embWDR5_NEW1<-embWDR5
 embWDR5_NEW1$WBGene<-substring(embWDR5$Wormbase.WBGene_UID, 10)
 embWDR5_NEW1<-embWDR5_NEW1[-c(1)]
