@@ -261,7 +261,7 @@ total_occurrences
 2 ns         9353
 3 up           12   (27)
 
-#All included
+# All included
 
 changea <-1;changeb<-0.05; embWDR5graph <- embWDR5_NEW %>%                         mutate(gene_type = case_when(fold.change_log2 >= changea & pvalue.ad <= changeb ~ "up", fold.change_log2 <= -changea & pvalue.ad <= changeb ~ "down", TRUE ~ "ns"))
 embWDR5graph %>% filter(!is.na(gene_type)) %>% group_by(gene_type) %>% count()
