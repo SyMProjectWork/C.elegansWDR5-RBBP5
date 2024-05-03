@@ -1,0 +1,119 @@
+library(ggpubr)
+
+ggmaplot1 <- function (data, fdr = 0.05, fdr2 = 0.05, fc = 1.5,fc2 = 1.5, genenames = NULL,
+                     detection_call = NULL, size = NULL, alpha = 1,
+                     seed = 42,
+                     font.label = c(12, "plain", "black"), label.rectangle = FALSE,
+                     palette = c("#1465AC","#B31B21", "darkgray"),
+                     top = 15, select.top.method = c("padj", "fc", "fc2"),
+                     label.select = NULL,
+                     main = NULL, xlab = "Log2 mean expression",  ylab = "Log2 fold change",
+                     ggtheme = theme_classic(),...)
+{
+
+  if(!base::inherits(data, c("matrix", "data.frame", "DataFrame", "DE_Results", "DESeqResults")))
+    stop("data must be an object of class matrix, data.frame, DataFrame, DE_Results or DESeqResults")
+  if(!is.null(detection_call)){
+    if(nrow(data)!=length(detection_call))
+      stop("detection_call must be a numeric vector of length = nrow(data)")
+  }
+  else if("detection_call" %in% colnames(data)){
+    detection_call <- as.vector(data$detection_call)
+  }
+  else detection_call = rep(1, nrow(data))
+
+  # Legend position
+  if(is.null(list(...)$legend)) legend <- c(0.12, 0.9)
+  # If basemean logged, we'll leave it as is, otherwise log2 transform
+  is.basemean.logged <- "baseMeanLog2" %in% colnames(data)
+  if(is.basemean.logged){
+    data$baseMean <- data$baseMeanLog2
+  }
+  else if("baseMean" %in% colnames(data)){
+    data$baseMean <- log2(data$baseMean +1)
+  }
+
+  # Check data format
+  ss <- base::setdiff(c("baseMean", "log2FoldChange", "padj"), colnames(data))
+  if(length(ss)>0) stop("The colnames of data must contain: ",
+                        paste(ss, collapse = ", "))
+
+  if(is.null(genenames)) genenames <- rownames(data)
+  else if(length(genenames)!=nrow(data))
+  stop("genenames should be of length nrow(data).")
+
+  sig <- rep(3, nrow(data))
+  sig[which(data$padj <= fdr2 & data$log2FoldChange < 0 & abs(data$log2FoldChange) >= log2(fc2) & detection_call ==1)] = 2
+  sig[which(data$padj <= fdr & data$log2FoldChange > 0 & abs(data$log2FoldChange) >= log2(fc) & detection_call ==1)] = 1
+  data <- data.frame(name = genenames, mean = data$baseMean, lfc = data$log2FoldChange,
+                  padj = data$padj, sig = sig)
+
+  # Change level labels
+  . <- NULL
+  data$sig <- as.factor(data$sig)
+  .lev <- levels(data$sig) %>% as.numeric()
+   palette <- palette[.lev]
+  new.levels <- c(
+    paste0("Up: ", sum(sig == 1)),
+    paste0("Down: ", sum(sig == 2)),
+    "NS"
+  ) %>% .[.lev]
+
+  data$sig <- factor(data$sig, labels = new.levels)
+
+
+  # Ordering for selecting top gene
+  select.top.method <- match.arg(select.top.method)
+  if(select.top.method == "padj") data <- data[order(data$padj), ]
+  else if(select.top.method == "fc") data <- data[order(abs(data$lfc), decreasing = TRUE), ]
+  else if(select.top.method == "fc2") data <- data[order(abs(data$lfc), decreasing = TRUE), ]
+  # select data for top genes
+  complete_data <- stats::na.omit(data)
+  labs_data <- subset(complete_data, padj <= fdr & name!="" & abs(lfc) >= log2(fc))
+  labs_data <- utils::head(labs_data, top)
+  # Select some specific labels to show
+  if(!is.null(label.select)){
+    selected_labels  <- complete_data %>%
+      subset(complete_data$name  %in% label.select, drop = FALSE)
+    labs_data <- dplyr::bind_rows(labs_data, selected_labels) %>%
+      dplyr::distinct(.data$name, .keep_all = TRUE)
+  }
+
+
+  font.label <- list(size = 12, face = "plain", color = "black")
+  font.label$size <- ifelse(is.null(font.label$size), 12, font.label$size)
+  font.label$color <- ifelse(is.null(font.label$color), "black", font.label$color)
+  font.label$face <- ifelse(is.null(font.label$face), "plain", font.label$face)
+
+  # Plot
+  mean <- lfc <- sig <- name <- padj <-  NULL
+  p <- ggplot(data, aes(x = mean, y = lfc)) +
+    geom_point(aes(color = sig), size = size, alpha = alpha)
+
+  max.overlaps = getOption("ggrepel.max.overlaps", default = Inf)
+
+  if(label.rectangle){
+    p <- p + ggrepel::geom_label_repel(data = labs_data, mapping = aes(label = name),
+                                      box.padding = unit(0.35, "lines"),
+                                      point.padding = unit(0.3, "lines"),
+                                      force = 1, seed = seed, fontface = font.label$face,
+                                      size = font.label$size/3, color = font.label$color,
+                                      max.overlaps = max.overlaps)
+  }
+  else{
+     p <- p + ggrepel::geom_text_repel(data = labs_data, mapping = aes(label = name),
+                             box.padding = unit(0.35, "lines"),
+                             point.padding = unit(0.3, "lines"),
+                             force = 1, seed = seed, fontface = font.label$face,
+                             size = font.label$size/3, color = font.label$color,
+                             max.overlaps = max.overlaps)
+  }
+
+  p <- p + scale_x_continuous(breaks=seq(0, max(data$mean), 2))+
+    labs(x = xlab, y = ylab, title = main, color = "")+ # to remove legend title use color = ""
+    geom_hline(yintercept = c(0, -log2(fc2), log2(fc)), linetype = c(1, 2, 2),
+               color = c("black", "black", "black"))
+
+  p <- ggpar(p, palette = palette, ggtheme = ggtheme, ...)
+  p
+}
